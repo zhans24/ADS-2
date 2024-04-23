@@ -17,7 +17,7 @@ public interface MyList<T> {
     boolean exists(Object o);
     public Object[] toArray();
     void clear();
-    void length();
+    int length();
 
 
 
