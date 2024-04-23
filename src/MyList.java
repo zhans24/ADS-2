@@ -2,7 +2,6 @@ public interface MyList<T> {
     void add(T t);
     void add(int index,T t);
     void addFirst(T t);
-    void addLast(T t);
     void set(int index,T t);
     T get(int index);
     T getFirst();
