@@ -17,9 +17,7 @@ public interface MyList<T> {
     int lastIndexOf(Object o);
     boolean exists(Object o);
     public Object[] toArray();
+    MyList<T> range(int begin,int end);
     void clear();
     int length();
-
-
-
 }

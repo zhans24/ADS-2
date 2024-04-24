@@ -13,10 +13,9 @@ public class MyLinkedList<T> implements MyList<T>{
         public String toString() {
             return (next!=null) ? (value+","+next) : value+"";
         }
-
-
-
     }
+
+
     @Override
     public void add(T t) {
         if (head == null)
@@ -29,8 +28,10 @@ public class MyLinkedList<T> implements MyList<T>{
         size++;
     }
 
+
     @Override
     public void add(int index, T t) {
+        checkIndex(index);
         if (index==0){
             addFirst(t);
         }
@@ -48,6 +49,11 @@ public class MyLinkedList<T> implements MyList<T>{
 
     }
 
+    private void checkIndex(int index) {
+        if(index < 0 || index >= size)
+            throw new IndexOutOfBoundsException("Invalid index");
+    }
+
     @Override
     public void addFirst(T t) {
         Node<T> first=new Node<>(t);
@@ -58,6 +64,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void set(int index, T t) {
+        checkIndex(index);
         Node<T> curr = head;
         if (index >= 0 && size>index) {
             for (int i = 0; i < index && curr.next != null; i++) {
@@ -71,15 +78,15 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T get(int index) {
+        checkIndex(index);
+
         Node<T> curr = head;
-        if (index >= 0 && size>index) {
-            for (int i = 0; i < index && curr.next != null; i++) {
-                curr = curr.next;
-            }
-            return curr.value;
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index");
+
+        for (int i = 0; i < index && curr.next != null; i++) {
+            curr = curr.next;
         }
+        return curr.value;
+
     }
 
     @Override
@@ -100,21 +107,20 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void remove(int index) {
+        checkIndex(index);
+
         if (index==0){
             head=head.next;
             return;
         }
-        if (index > 0 && size>index) {
-            Node<T> curr = head;
-            Node<T> prev = null;
-            for (int i = 0; i < index && curr.next != null; i++) {
-                prev=curr;
-                curr = curr.next;
-            }
-            prev.next=curr.next;
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index");
+        Node<T> curr = head;
+        Node<T> prev = head;
+        for (int i = 0; i < index && curr.next != null; i++) {
+            prev=curr;
+            curr = curr.next;
         }
+        prev.next=curr.next;
+
         size--;
     }
 
@@ -122,7 +128,8 @@ public class MyLinkedList<T> implements MyList<T>{
     public void pop(Object o) {
         int check=size;
         Node<T> curr=head;
-        Node<T> prev=null;
+        Node<T> prev=head;
+
         while (curr!=null){
             if (curr.value==o) {
                 if (curr == head)
@@ -189,6 +196,7 @@ public class MyLinkedList<T> implements MyList<T>{
     public int indexOf(Object o) {
         int counter=0;
         Node<T> curr=head;
+
         while (curr.next!=null){
             if (curr.value==o){
                 return counter;
@@ -196,6 +204,7 @@ public class MyLinkedList<T> implements MyList<T>{
             else ++counter;
             curr=curr.next;
         }
+
         return -1;
     }
 
@@ -204,24 +213,41 @@ public class MyLinkedList<T> implements MyList<T>{
         int index=-1;
         int counter=0;
         Node<T> curr=head;
+
         while (curr.next!=null){
             if (curr.value==o)
                 index=counter;
             counter++;
             curr=curr.next;
-
         }
+
         return index;
     }
 
     @Override
     public boolean exists(Object o) {
+        Node<T> curr=head;
+
+        while (curr!=null){
+            if (curr.value==o)
+                return true;
+            curr=curr.next;
+        }
+
         return false;
     }
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] arr=new Object[size];
+        Node<T> node=head;
+
+        for (int i = 0; i < size && node!=null; i++) {
+            arr[i]=node.value;
+            node=node.next;
+        }
+
+        return arr;
     }
 
     @Override
@@ -231,10 +257,36 @@ public class MyLinkedList<T> implements MyList<T>{
 
 
     @Override
+    public MyLinkedList<T> range(int begin,int end) {
+        MyLinkedList<T> ll=new MyLinkedList<>();
+
+        Node<T> curr=head;
+        Node<T> newHead =null;
+        Node<T> prev=null;
+
+        for (int i=0;i<end;i++){
+            if (i>=begin){
+                Node<T> node=new Node<>(curr.value);
+
+                if (newHead==null)
+                    newHead=node;
+                else
+                    prev.next=node;
+                prev=node;
+            }
+            curr=curr.next;
+        }
+
+        ll.head=newHead;
+        ll.size=end-begin;
+
+        return ll;
+    }
+
+    @Override
     public int length() {
         return this.size;
     }
-
 
     @Override
     public String toString() {

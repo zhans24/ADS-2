@@ -10,7 +10,12 @@ public class Main {
         ll.add(6);
 
         System.out.println(ll);
-        ll.clear();
+        ll.add(1,14);
+        ll.add(1,14);
         System.out.println(ll);
+        Integer x=2929;
+        Integer y=2929;
+        System.out.println(x==y);
+
     }
 }
