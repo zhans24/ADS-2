@@ -201,24 +201,17 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public int lastIndexOf(Object o) {
+        int index=-1;
         int counter=0;
         Node<T> curr=head;
         while (curr.next!=null){
-            if (curr.value==o){
-                curr=curr.next;
-                while (curr!=null){
-                    if (curr.value==o)
-                        return counter;
-                    else
-                        ++counter;
-                    curr=curr.next;
-                }
-                return counter;
-            }
-            else ++counter;
+            if (curr.value==o)
+                index=counter;
+            counter++;
             curr=curr.next;
+
         }
-        return -1;
+        return index;
     }
 
     @Override
@@ -233,8 +226,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void clear() {
-        MyLinkedList<T> l=new MyLinkedList<T>();
-        size=0;
+        head=null;
     }
 
 
@@ -246,7 +238,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public String toString() {
-        return "[ "+head+" ]";
+        return "[ "+( (head!=null)?head:"" ) +" ]";
     }
 
 }

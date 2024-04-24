@@ -10,6 +10,7 @@ public class Main {
         ll.add(6);
 
         System.out.println(ll);
-        System.out.println(ll.indexOf(14));
+        ll.clear();
+        System.out.println(ll);
     }
 }
