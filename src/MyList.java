@@ -7,6 +7,7 @@ public interface MyList<T> {
     T getFirst();
     T getLast();
     void remove(int index);
+    void remove();
     void pop(Object o);
     void removeFirst();
     void removeLast();

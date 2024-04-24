@@ -36,10 +36,14 @@ public class MyLinkedList<T> implements MyList<T>{
         }
         else{
             Node<T> curr=head;
-            for (int i = 0; i != index && curr.next!=null; i++) {
+            Node<T> prev;
+            for (int i = 0; i != index-1 && curr.next!=null; i++) {
                 curr=curr.next;
             }
-            curr.value=new Node<>(t).value;
+            prev=curr.next;
+            curr.next=new Node<>(t);
+            curr.next.next=prev;
+            size++;
         }
 
     }
@@ -86,6 +90,12 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public T getLast() {
         return get(size-1);
+    }
+
+    @Override
+    public void remove(){
+        removeLast();
+        size--;
     }
 
     @Override
@@ -145,22 +155,70 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void sort() {
-
+        for (int i = 0; i < size - 1 ; i++) {
+            Node<T> curr =head;
+            for (int j = 0; j < size - i - 1   ; j++) {
+                if (((Comparable<T>) curr.value).compareTo(curr.next.value) > 0) {
+                    T t = curr.value;
+                    curr.value = curr.next.value;
+                    curr.next.value = t;
+                }
+                curr = curr.next;
+            }
+        }
     }
 
     @Override
     public void sort(boolean reverse) {
-
+        if (!reverse) {
+            for (int i = 0; i < size - 1; i++) {
+                Node<T> curr = head;
+                for (int j = 0; j < size - i - 1; j++) {
+                    if (((Comparable<T>) curr.value).compareTo(curr.next.value) < 0) {
+                        T t = curr.value;
+                        curr.value = curr.next.value;
+                        curr.next.value = t;
+                    }
+                    curr = curr.next;
+                }
+            }
+        }else sort();
     }
 
     @Override
     public int indexOf(Object o) {
-        return 0;
+        int counter=0;
+        Node<T> curr=head;
+        while (curr.next!=null){
+            if (curr.value==o){
+                return counter;
+            }
+            else ++counter;
+            curr=curr.next;
+        }
+        return -1;
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        return 0;
+        int counter=0;
+        Node<T> curr=head;
+        while (curr.next!=null){
+            if (curr.value==o){
+                curr=curr.next;
+                while (curr!=null){
+                    if (curr.value==o)
+                        return counter;
+                    else
+                        ++counter;
+                    curr=curr.next;
+                }
+                return counter;
+            }
+            else ++counter;
+            curr=curr.next;
+        }
+        return -1;
     }
 
     @Override
