@@ -102,7 +102,6 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void remove(){
         removeLast();
-        size--;
     }
 
     @Override
@@ -149,14 +148,12 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void removeFirst() {
         remove(0);
-        size--;
 
     }
 
     @Override
     public void removeLast() {
         remove(size-1);
-        size--;
 
     }
 

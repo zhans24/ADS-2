@@ -1,3 +1,4 @@
+
 public class Main {
     public static void main(String[] args) {
         MyLinkedList<Integer> ll=new MyLinkedList<>();
@@ -9,7 +10,8 @@ public class Main {
         arr.add(65);
         arr.add(5);
         System.out.println(arr);
-        arr.lastIndexOf(5);
-        System.out.println(arr.indexOf(63));
+        arr.set(4,5);
+        System.out.println(arr);
+
     }
 }
