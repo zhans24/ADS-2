@@ -1,18 +1,17 @@
-import java.util.LinkedList;
+import java.util.Queue;
 
 public class Main {
     public static void main(String[] args) {
-        MyLinkedList<Integer> ll=new MyLinkedList<>();
-        ll.add(1);
-        ll.add(2);
-        ll.add(5);
-        ll.add(5);
-        ll.add(6);
-        System.out.println(ll);
-        System.out.println(ll.length());
-        ll.add(1,7);
-        System.out.println(ll);;
-        System.out.println(ll.length());
-
+        MyQueue<Integer> queue=new MyQueue<>();
+        System.out.println(queue.isEmpty());
+        queue.enqueue(1);
+        queue.enqueue(2);
+        queue.enqueue(3);
+        System.out.println(queue);
+        System.out.println(queue.isEmpty());
+        queue.dequeue();
+        System.out.println(queue);
+        System.out.println(queue.peek());
     }
+
 }

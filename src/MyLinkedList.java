@@ -45,7 +45,6 @@ public class MyLinkedList<T> implements MyList<T>{
         checkIndex(index);
         if (index==0){
             addFirst(t);
-
         } else{
             Node<T> curr=head;
             Node<T> prev;
@@ -56,7 +55,6 @@ public class MyLinkedList<T> implements MyList<T>{
             curr.next=new Node<>(t);
             curr.next.next=prev;
             size++;
-
         }
     }
 
@@ -106,12 +104,12 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T getFirst() {
-        return head.value;
+        return (head!=null)?head.value:null;
     }
 
     @Override
     public T getLast() {
-        return tail.value;
+        return (tail!=null)?tail.value:null;
     }
 
     @Override
@@ -123,12 +121,12 @@ public class MyLinkedList<T> implements MyList<T>{
     public void remove(int index) {
         checkIndex(index);
         if (index==0){
-            head=head.next;
-            head.prev=null;
-        } else if (index==size-1) {
-            tail=tail.prev;
-            tail.next=null;
-        } else{
+            removeFirst();
+        }
+        else if (index==size-1) {
+            removeLast();
+        }
+        else{
             Node<T> curr=head;
             Node<T> prev=tail;
             for (int i = size-1 ; i !=index+1 && prev.prev!=null; i--) {
@@ -138,8 +136,9 @@ public class MyLinkedList<T> implements MyList<T>{
                 curr=curr.next;
             }
             curr.next=prev;
+            size--;
         }
-        size--;
+
     }
 
     @Override
@@ -168,14 +167,34 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void removeFirst() {
-        remove(0);
-
+        if (head==null){
+            throw new RuntimeException("List is empty");
+        }
+        else if (head.next==null){
+            head=null;
+            tail=null;
+        }
+        else {
+            head = head.next;
+            head.prev = null;
+        }
+        size--;
     }
 
     @Override
     public void removeLast() {
-        remove(size-1);
-
+        if (tail==null) {
+            throw new RuntimeException("List is empty");
+        }
+        else if (tail.prev==null){
+            head=null;
+            tail= null;
+        }
+        else {
+            tail = tail.prev;
+            tail.next = null;
+        }
+        size--;
     }
 
     @Override
