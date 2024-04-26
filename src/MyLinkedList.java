@@ -1,9 +1,8 @@
 public class MyLinkedList<T> implements MyList<T>{
-    Node<T> head;
-    Node<T> tail;
+    private Node<T> head;
+    private Node<T> tail;
 
     private int size=0;
-    private Node<T> ta;
 
     private static class Node<T>{
         T value;
@@ -39,11 +38,24 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void add(int index, T t) {
+        if (index==size) {
+            add(t);
+            return;
+        }
         checkIndex(index);
         if (index==0){
             addFirst(t);
-        }
-        else{
+
+        } else{
+            Node<T> curr=head;
+            Node<T> prev;
+            for (int i = 0; i !=index-1 && curr.next!=null; i++) {
+                curr=curr.next;
+            }
+            prev=curr.next;
+            curr.next=new Node<>(t);
+            curr.next.next=prev;
+            size++;
 
         }
     }
@@ -110,19 +122,23 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void remove(int index) {
         checkIndex(index);
-
         if (index==0){
             head=head.next;
-            return;
+            head.prev=null;
+        } else if (index==size-1) {
+            tail=tail.prev;
+            tail.next=null;
+        } else{
+            Node<T> curr=head;
+            Node<T> prev=tail;
+            for (int i = size-1 ; i !=index+1 && prev.prev!=null; i--) {
+                prev=prev.prev;
+            }
+            for (int i = 0; i !=index-1 && curr.next!=null; i++) {
+                curr=curr.next;
+            }
+            curr.next=prev;
         }
-        Node<T> curr = head;
-        Node<T> prev = head;
-        for (int i = 0; i < index && curr.next != null; i++) {
-            prev=curr;
-            curr = curr.next;
-        }
-        prev.next=curr.next;
-
         size--;
     }
 
@@ -130,19 +146,21 @@ public class MyLinkedList<T> implements MyList<T>{
     public void pop(Object o) {
         int check=size;
         Node<T> curr=head;
-        Node<T> prev=head;
-
-        while (curr!=null){
-            if (curr.value==o) {
-                if (curr == head)
+        while (curr != null) {
+            if (curr.value.equals(o)) {
+                if (curr == head) {
                     head = head.next;
-                else
-                    prev.next = curr.next;
+                    head.prev = null;
+                } else if (curr == tail) {
+                    tail = tail.prev;
+                    tail.next = null;
+                } else {
+                    curr.prev.next = curr.next;
+                    curr.next.prev = curr.prev;
+                }
                 size--;
             }
-            else
-                prev=curr;
-            curr=curr.next;
+            curr = curr.next;
         }
         if (size==check)
             throw new RuntimeException("Element not in list");
@@ -198,7 +216,7 @@ public class MyLinkedList<T> implements MyList<T>{
         Node<T> curr=head;
 
         while (curr.next!=null){
-            if (curr.value==o){
+            if (curr.value.equals(o)){
                 return counter;
             }
             else ++counter;
@@ -215,12 +233,11 @@ public class MyLinkedList<T> implements MyList<T>{
         Node<T> curr=head;
 
         while (curr.next!=null){
-            if (curr.value==o)
+            if (curr.value.equals(o))
                 index=counter;
             counter++;
             curr=curr.next;
         }
-
         return index;
     }
 
@@ -253,34 +270,14 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void clear() {
         head=null;
+        tail=null;
+        size=0;
     }
 
 
     @Override
     public MyLinkedList<T> range(int begin,int end) {
-        MyLinkedList<T> ll=new MyLinkedList<>();
-
-        Node<T> curr=head;
-        Node<T> newHead =null;
-        Node<T> prev=null;
-
-        for (int i=0;i<end;i++){
-            if (i>=begin){
-                Node<T> node=new Node<>(curr.value);
-
-                if (newHead==null)
-                    newHead=node;
-                else
-                    prev.next=node;
-                prev=node;
-            }
-            curr=curr.next;
-        }
-
-        ll.head=newHead;
-        ll.size=end-begin;
-
-        return ll;
+        return new MyLinkedList<>();
     }
 
     @Override
@@ -290,7 +287,7 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public String toString() {
-        return "[ "+( (head!=null)?head:"" ) +" ]";
+        return "["+( (head!=null)?head:"" ) +"]";
     }
 
 }
