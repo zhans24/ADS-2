@@ -2,16 +2,12 @@
 public class Main {
     public static void main(String[] args) {
         MyLinkedList<Integer> ll=new MyLinkedList<>();
-        MyArrayList<Integer> arr=new MyArrayList<>();
-        arr.add(5);
-        arr.add(32);
-        arr.add(5);
-        arr.add(5);
-        arr.add(65);
-        arr.add(5);
-        System.out.println(arr);
-        arr.set(4,5);
-        System.out.println(arr);
+        ll.addFirst(5);
+        ll.addFirst(6);
+        ll.addFirst(7);
+        ll.addFirst(8);
+        System.out.println(ll);
+
 
     }
 }

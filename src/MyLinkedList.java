@@ -1,12 +1,18 @@
 public class MyLinkedList<T> implements MyList<T>{
     Node<T> head;
+    Node<T> tail;
+
     private int size=0;
+    private Node<T> ta;
+
     private static class Node<T>{
         T value;
         Node<T> next;
+        Node<T> prev;
         public Node(T value) {
             this.value = value;
             this.next=null;
+            this.prev=null;
         }
 
         @Override
@@ -18,12 +24,14 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void add(T t) {
-        if (head == null)
-            head=new Node<>(t);
-        else {
-            Node<T> curr;
-            for (curr=head; curr.next != null ;curr=curr.next);
-            curr.next=new Node<>(t);
+        Node<T> node = new Node<>(t);
+        if (head == null) {
+            head = node;
+            tail = node;
+        } else {
+            tail.next = node;
+            node.prev = tail;
+            tail = node;
         }
         size++;
     }
@@ -36,17 +44,8 @@ public class MyLinkedList<T> implements MyList<T>{
             addFirst(t);
         }
         else{
-            Node<T> curr=head;
-            Node<T> prev;
-            for (int i = 0; i != index-1 && curr.next!=null; i++) {
-                curr=curr.next;
-            }
-            prev=curr.next;
-            curr.next=new Node<>(t);
-            curr.next.next=prev;
-            size++;
-        }
 
+        }
     }
 
     private void checkIndex(int index) {
@@ -57,8 +56,15 @@ public class MyLinkedList<T> implements MyList<T>{
     @Override
     public void addFirst(T t) {
         Node<T> first=new Node<>(t);
-        first.next=head;
-        head=first;
+        if (head==null){
+            head=first;
+            tail=first;
+        }
+        else {
+            first.next=head;
+            head.prev=first;
+            head=first;
+        }
         size++;
     }
 
@@ -66,14 +72,11 @@ public class MyLinkedList<T> implements MyList<T>{
     public void set(int index, T t) {
         checkIndex(index);
         Node<T> curr = head;
-        if (index >= 0 && size>index) {
-            for (int i = 0; i < index && curr.next != null; i++) {
-                curr = curr.next;
-            }
-            curr.value = new Node<>(t).value;
-        } else {
-            throw new IndexOutOfBoundsException("Invalid index");
+        for (int i = 0; i < index && curr.next != null; i++) {
+            curr = curr.next;
         }
+        curr.value = new Node<>(t).value;
+
     }
 
     @Override
@@ -91,12 +94,12 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public T getFirst() {
-        return get(0);
+        return head.value;
     }
 
     @Override
     public T getLast() {
-        return get(size-1);
+        return tail.value;
     }
 
     @Override
