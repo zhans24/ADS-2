@@ -35,16 +35,7 @@ public class Main {
         System.out.println("length:"+myStack.length());
 
         System.out.println("-------------------------------------");
-        MyMinHeap myMinHeap=new MyMinHeap();
-        myMinHeap.add(1);
-        myMinHeap.add(54);
-        myMinHeap.add(343);
-        myMinHeap.add(4);
-        myMinHeap.add(421);
-        myMinHeap.add(5);
-        System.out.println(myMinHeap);
-        myMinHeap.removeMin();
-        System.out.println(myMinHeap);
+        M
 
     }
 
