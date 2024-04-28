@@ -10,7 +10,7 @@ public class MyMinHeap<T> extends MyArrayList<T>{
         int currentIndex = length() - 1;
         int parentIndex = (currentIndex - 1) / 2;
 
-        while (parentIndex >= 0 && ((Comparable<T>)get(currentIndex)).compareTo(get(parentIndex))>0 ) {
+        while (parentIndex >= 0 && ((Comparable<T>)get(currentIndex)).compareTo(get(parentIndex))<0 ) {
             T sw = get(currentIndex);
             set(currentIndex, get(parentIndex));
             set(parentIndex, sw);
@@ -39,11 +39,11 @@ public class MyMinHeap<T> extends MyArrayList<T>{
         int rightChild = 2 * index + 2;
         int smallest = index;
 
-        if (leftChild < length() && ((Comparable<T>)get(leftChild)).compareTo(get(smallest))<0) {
+        if (leftChild < length() && ((Comparable<T>)get(leftChild)).compareTo(get(smallest))>0) {
             smallest = leftChild;
         }
 
-        if (rightChild < length() && ((Comparable<T>)get(rightChild)).compareTo(get(smallest))<0)   {
+        if (rightChild < length() && ((Comparable<T>)get(rightChild)).compareTo(get(smallest))>0)   {
             smallest = rightChild;
         }
 

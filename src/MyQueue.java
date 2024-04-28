@@ -12,10 +12,7 @@ public class MyQueue<T> extends MyLinkedList<T>{
         removeFirst();
     }
 
-    @Override
-    public String toString() {
-        return super.toString();
-    }
+
 
     public boolean isEmpty(){
         return getFirst()==null;
@@ -23,5 +20,10 @@ public class MyQueue<T> extends MyLinkedList<T>{
 
     public T peek(){
         return getFirst();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString();
     }
 }

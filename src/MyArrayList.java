@@ -1,4 +1,3 @@
-import java.util.Arrays;
 
 public class MyArrayList<T> implements MyList<T> {
     private T[] arr;
@@ -46,6 +45,10 @@ public class MyArrayList<T> implements MyList<T> {
     public void addFirst(T t) {
         add(0,t);
     }
+    @Override
+    public void addLast(T t){
+        add(t);
+    }
 
     @Override
     public void set(int index, T t) {
@@ -56,23 +59,19 @@ public class MyArrayList<T> implements MyList<T> {
     @Override
     public T get(int index) {
         checkIndex(index);
-        return arr[index];
+        return get(index);
     }
 
     @Override
     public T getFirst() {
-        if (size>0)
-            return arr[0];
-        else
-            throw new IndexOutOfBoundsException("Array is empty");
+        checkIndex(0);
+        return get(0);
     }
 
     @Override
     public T getLast() {
-        if (size>0)
-            return arr[size-1];
-        else
-            throw new IndexOutOfBoundsException("Array is empty");
+        checkIndex(size-1);
+        return get(size-1);
     }
 
     @Override
@@ -94,7 +93,7 @@ public class MyArrayList<T> implements MyList<T> {
     }
 
     @Override
-    public void pop(Object o) {
+    public void remove(Object o) {
         if (!exists(o))
             throw new RuntimeException("Element not in the list");
         for (int i = 0; i < size; i++) {

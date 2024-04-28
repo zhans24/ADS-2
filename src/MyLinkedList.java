@@ -77,6 +77,10 @@ public class MyLinkedList<T> implements MyList<T>{
         }
         size++;
     }
+    @Override
+    public void addLast(T t){
+        add(t);
+    }
 
     @Override
     public void set(int index, T t) {
@@ -142,7 +146,7 @@ public class MyLinkedList<T> implements MyList<T>{
     }
 
     @Override
-    public void pop(Object o) {
+    public void remove(Object o) {
         int check=size;
         Node<T> curr=head;
         while (curr != null) {
@@ -199,8 +203,40 @@ public class MyLinkedList<T> implements MyList<T>{
 
     @Override
     public void sort() {
+        if (size>0)
+            bubblesort(this.head,this.size);
+        else
+            throw new RuntimeException("List is empty");
+    }
+
+
+
+    @Override
+    public void sort(boolean reverse) {
+        if (reverse && size > 0){
+            bubblesort(head, this.size);
+            this.head = reverseList(head);
+        }
+        else
+            sort();
+    }
+
+    private Node<T> reverseList(Node<T> head) {
+        Node<T> prev = null;
+        Node<T> current = head;
+        Node<T> next = null;
+        while (current != null) {
+            next = current.next;
+            current.next = prev;
+            prev = current;
+            current = next;
+        }
+        return prev;
+    }
+
+    private void bubblesort(Node<T> first,int size){
         for (int i = 0; i < size - 1 ; i++) {
-            Node<T> curr =head;
+            Node<T> curr =first;
             for (int j = 0; j < size - i - 1   ; j++) {
                 if (((Comparable<T>) curr.value).compareTo(curr.next.value) > 0) {
                     T t = curr.value;
@@ -211,24 +247,6 @@ public class MyLinkedList<T> implements MyList<T>{
             }
         }
     }
-
-    @Override
-    public void sort(boolean reverse) {
-        if (!reverse) {
-            for (int i = 0; i < size - 1; i++) {
-                Node<T> curr = head;
-                for (int j = 0; j < size - i - 1; j++) {
-                    if (((Comparable<T>) curr.value).compareTo(curr.next.value) < 0) {
-                        T t = curr.value;
-                        curr.value = curr.next.value;
-                        curr.next.value = t;
-                    }
-                    curr = curr.next;
-                }
-            }
-        }else sort();
-    }
-
     @Override
     public int indexOf(Object o) {
         int counter=0;
