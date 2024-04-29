@@ -180,7 +180,11 @@ public class MyArrayList<T> implements MyList<T> {
 
     @Override
     public Object[] toArray() {
-        return new Object[0];
+        Object[] newArr = new Object[size];
+        for (int i = 0; i < size; i++) {
+            newArr[i] = arr[i];
+        }
+        return newArr;
     }
 
     @Override
