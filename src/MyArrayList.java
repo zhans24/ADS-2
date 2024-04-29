@@ -111,32 +111,42 @@ public class MyArrayList<T> implements MyList<T> {
     }
     @Override
     public void sort() {
+        if (size>0)
+            bubblesort(this.arr, this.size);
+        else
+            throw new RuntimeException("List is empty");
+    }
+
+    @Override
+    public void sort(boolean reverse) {
+        if (reverse && size>0){
+            bubblesort(this.arr, size);
+            this.arr=reverseArr(arr, 0, size-1);
+        }
+        else
+            sort();
+    }
+
+    private void bubblesort(T[] array,int size){
         for (int i = 0; i < size; i++) {
             for (int j = 0; j < size-i-1; j++) {
-                if (( (Comparable<T>) arr[j]).compareTo(arr[j+1])>0  ){
-                    T swap=arr[j];
-                    arr[j]=arr[j+1];
-                    arr[j+1]=swap;
+                if (( (Comparable<T>) array[j]).compareTo(array[j+1])>0  ){
+                    T swap=array[j];
+                    array[j]=array[j+1];
+                    array[j+1]=swap;
                 }
             }
         }
     }
 
-    @Override
-    public void sort(boolean reverse) {
-        if (reverse)
-            sort();
-        else{
-            for (int i = 0; i < size; i++) {
-                for (int j = 0; j < size-i-1; j++) {
-                    if (( (Comparable<T>) arr[j+1]).compareTo(arr[j])>0  ){
-                        T swap=arr[j];
-                        arr[j]=arr[j+1];
-                        arr[j+1]=swap;
-                    }
-                }
-            }
-        }
+    private T[] reverseArr(T[] array,int start,int end){
+        if (start>=end)
+            return array;
+        T sw=array[start];
+        array[start]=array[end];
+        array[end]=sw;
+
+        return reverseArr(array, start+1, end-1);
     }
 
     @Override
